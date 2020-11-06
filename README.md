@@ -1,3 +1,10 @@
+![#Synbols](https://github.com/ElementAI/synbols/raw/master/title.png)
+# Probing Learning Algorithms with Synthetic Datasets
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+![Synbols](https://github.com/ElementAI/synbols-benchmarks/raw/master/cover.png)
+
 # Intro
 
 This repository contains the code for reproducing experiments in the following paper:
