@@ -16,6 +16,11 @@ Results should be in `<experiments directory>`
 ### Run a specific experiment
 To run a specific experiment edit the [exp_config](https://github.com/ElementAI/synbols-benchmarks/blob/master/classification/exp_configs.py)
 
+### Visualize results
+1. Start a [jupyter notebook](https://jupyter.org/)
+2. Open the [notebook](https://github.com/ElementAI/synbols-benchmarks/blob/master/classification/Visualize%20Results.ipynb)
+3. Add the path where experiments were saved (`<experiments directory>`)
+4. Run cell and visualize
 
 ### Questions
 Contact Pau Rodriguez for questions or open an issue and tag @prlz77
