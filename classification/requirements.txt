@@ -1,0 +1,3 @@
+git+https://github.com/haven-ai/haven-ai@f479b730dd3a1065e8351ad57ec91def5c2ee3b4
+h5py
+synbols
