@@ -7,7 +7,8 @@ Reproduced with a fresh installation of `python3.8`
 ```pip install -r requirements.txt```
 
 ### Reproduce classification experiments
-1. `python3 trainval.py --savedir_base <experiments directory> --exp_group_list baselines`
+1. Launch all the experiments (will sequentially run all of them)
+`python3 trainval.py --savedir_base <experiments directory> --exp_group_list baselines`
 
 Results should be in <experiments directory>
   
