@@ -22,5 +22,8 @@ To run a specific experiment edit the [exp_config](https://github.com/ElementAI/
 3. Add the path where experiments were saved (`<experiments directory>`)
 4. Run cell and visualize
 
+### Visualize generated images with tensorboard
+You can run a tensorboard instance and point it to `<experiments/directory/path>`
+
 ### Questions
 Contact Pau Rodriguez for questions or open an issue and tag @prlz77
