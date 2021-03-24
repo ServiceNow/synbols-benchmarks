@@ -1,0 +1,6 @@
+requests
+pytorch
+torchvision
+tqdm
+h5py
+numpy
