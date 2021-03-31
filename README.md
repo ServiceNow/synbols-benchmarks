@@ -13,7 +13,7 @@ To use the Synbols tool for generating new datasets, please visit https://github
 
 ## Pytorch Dataset Quick Setup
 ```python
-from examples.datasets import Synbols
+from pytorch_examples.datasets import Synbols
 from torchvision import transforms as tt
 
 dataset_path = "./"
