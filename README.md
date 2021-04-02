@@ -25,10 +25,10 @@ train_dataset = synbols.get_split('train', tt.ToTensor())
 val_dataset = synbols.get_split('val', tt.ToTensor())
 ```
 
-For a complete example run `./examples/minimal_classification.py` from the root folder of this project:
+For a complete example run `./pytorch_examples/minimal_classification.py` from the root folder of this project:
 
 ```bash
-python -m examples.minimal_classification
+python -m pytorch_examples.minimal_classification
 ```
 
 It should reach >70% accuracy.
