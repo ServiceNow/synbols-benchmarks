@@ -38,7 +38,7 @@ class Synbols():
             download (bool): Whether to download the dataset
         """
         if download:  # done here in order to pass x and y to super
-            full_path = get_data_path_or_download("default_n=100000_2020-Oct-19.h5py",
+            full_path = get_data_path_or_download(dataset_name,
                                                   data_root=data_path)
         else:
             full_path = os.path.join(data_path, dataset_name)
