@@ -82,7 +82,7 @@ def trainval(exp_dict, savedir_base, data_root, reset=False, tensorboard=True):
 
     if os.path.exists(score_list_path):
         # resume experiment
-        model.set_state_dict(hu.torch_load(model_path))
+        model.load_state_dict(hu.torch_load(model_path))
         score_list = hu.load_pkl(score_list_path)
         s_epoch = score_list[-1]['epoch'] + 1
     else:
