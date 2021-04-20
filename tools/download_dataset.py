@@ -3,6 +3,11 @@ import sys
 import requests
 from tqdm import tqdm
 
+MIRRORS = [
+    'https://zenodo.org/record/4701316/files/%s?download=1',
+    'https://github.com/ElementAI/synbols-resources/raw/master/datasets/generated/%s'
+]
+
 def get_data_path_or_download(dataset, data_root):
     """Finds a dataset locally and downloads if needed.
 
@@ -17,7 +22,6 @@ def get_data_path_or_download(dataset, data_root):
     Returns:
         str: dataset final path 
     """
-    url_prefix = 'https://github.com/ElementAI/synbols-resources/raw/master/datasets/generated/'
     if data_root == "":
         data_root = os.environ.get("TMPDIR", "/tmp")
     full_path = os.path.join(data_root, dataset)
@@ -28,13 +32,27 @@ def get_data_path_or_download(dataset, data_root):
     else:
         print("Downloading %s..." %full_path)
 
-    r = requests.head(os.path.join(url_prefix, dataset))
-    is_big = not r.ok
+    for i, mirror in enumerate(MIRRORS):
+        try:
+            download_url(mirror % dataset, full_path)
+            return full_path
+        except Exception as e:
+            if i + 1 < len(MIRRORS):
+                print("%s failed, trying %s..." %(mirror, MIRRORS[i+1]))
+            else:
+                raise e
 
+def download_url(url, path):
+    r = requests.head(url)
+    if r.status_code == 302:
+        raise RuntimeError("Server returned 302 status. \
+            Try again later or contact us.")
+
+    is_big = not r.ok
     if is_big:
-        r = requests.head(os.path.join(url_prefix, dataset + ".aa"))
+        r = requests.head(url + ".aa")
         if not r.ok:
-            raise ValueError("Dataset %s" %dataset, "not found in remote.") 
+            raise ValueError("Dataset %s" %url, "not found in remote.") 
         response = input("Download more than 3GB (Y/N)?: ").lower()
         while response not in ["y", "n"]:
             response = input("Download more than 3GB (Y/N)?: ").lower()
@@ -44,18 +62,16 @@ def get_data_path_or_download(dataset, data_root):
         parts = []
         current_part = "a"
         while r.ok: 
-            r = requests.head(os.path.join(url_prefix, dataset + ".a%s" %current_part))
+            r = requests.head(os.path.join(url + ".a%s" %current_part))
             parts.append(".a" + current_part)
             current_part = chr(ord(current_part) + 1)
     else:
-        parts = [""]
+        parts = [url]
 
-    if not os.path.isfile(full_path):
-        with open(full_path, 'wb') as file:
+    if not os.path.isfile(path):
+        with open(path, 'wb') as file:
             for i, part in enumerate(parts):
                 print("Downloading part %d/%d" %(i + 1, len(parts)))
-                url = os.path.join(url_prefix, "%s%s" %(dataset, part))
-                
                 # Streaming, so we can iterate over the response.
                 response = requests.get(url, stream=True)
                 total_size_in_bytes = int(response.headers.get('content-length', 0))
@@ -66,5 +82,6 @@ def get_data_path_or_download(dataset, data_root):
                     file.write(data)
                 progress_bar.close()
                 if total_size_in_bytes != 0 and progress_bar.n != total_size_in_bytes:
-                    print("ERROR, something went wrong downloading %s" %url)
-    return full_path
+                    file.close()
+                    os.remove(path)
+                    raise RuntimeError("ERROR, something went wrong downloading %s" %part)
