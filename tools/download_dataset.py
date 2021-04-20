@@ -62,8 +62,8 @@ def download_url(url, path):
         parts = []
         current_part = "a"
         while r.ok: 
-            r = requests.head(os.path.join(url + ".a%s" %current_part))
-            parts.append(".a" + current_part)
+            r = requests.head(url + ".a%s" %current_part)
+            parts.append(url + ".a" + current_part)
             current_part = chr(ord(current_part) + 1)
     else:
         parts = [url]
@@ -73,7 +73,7 @@ def download_url(url, path):
             for i, part in enumerate(parts):
                 print("Downloading part %d/%d" %(i + 1, len(parts)))
                 # Streaming, so we can iterate over the response.
-                response = requests.get(url, stream=True)
+                response = requests.get(part, stream=True)
                 total_size_in_bytes = int(response.headers.get('content-length', 0))
                 block_size = 1024 #1 Kilobyte
                 progress_bar = tqdm(total=total_size_in_bytes, unit='iB', unit_scale=True)
